@@ -18,8 +18,8 @@ int main(){
 	conj.find(5); // Busca em O(log N). Retorna um ponteiro para o elemento.
 		     // Se ele não estiver no conjunto, retorna conj.end().
 
-	conj.lower_bound(5); // min [5,+oo)
-	conj.upper_bound(5); // min (5,+oo)
+	conj.lower_bound(5); // min [5,+oo) em O(log N)
+	conj.upper_bound(5); // min (5,+oo) em O(log N)
 
 	conj.clear(); // Limpa o conjunto em O(N)
 	
