@@ -11,7 +11,7 @@ bool vis[MAXN];
 
 void Djikstra(int orig){
     for(int i = 0; i < n; i++) dist[i] = INF;
-    priority_queue<pair<int, int>, vector <pair<int, int>>, greater<pair<int, int>>> fila;
+    priority_queue <pair<int, int>, vector <pair<int, int>>, greater<pair<int, int>>> fila;
     dist[orig] = 0;
     fila.push({dist[orig], orig});
     while(true){
