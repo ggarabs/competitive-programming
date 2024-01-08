@@ -2,6 +2,8 @@
 
 using namespace std;
 
+// O(sqrt N)
+
 int main(){
     int n;
     cin >> n;

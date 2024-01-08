@@ -16,11 +16,11 @@ bool are_collinear(point a, point c, point b){
 }
 
 bool cw(point a, point c, point b){ // counterwise
-    return (a-c) / (b-c) < 0;
+    return (a-c)/(b-c) < 0;
 }
 
 bool ccw(point a, point c, point b){ // counterclockwise
-    return (a-c) / (b-c) > 0;
+    return (a-c)/(b-c) > 0;
 }
 
 long long area(vector <point> polygon){
