@@ -2,16 +2,24 @@
 
 using namespace std;
 
-int main(){
+#define _ ios_base::sync_with_stdio(0);cin.tie(0);
+
+typedef long long ll;
+
+int main(){ _
     int t;
     cin >> t;
 
     for(int i = 0; i < t; i++){
-        long long int x;
+        long long int x, palp;
         cin >> x;
 
-        cout << (unsigned long long int)(sqrt((unsigned long long int)(24*x + 1)) - 1)/6 << endl;
+	palp = (sqrt(24)*sqrt(x)-1)/6;
+
+	while(x == ((6*(palp+1)+1)*(6*(palp+1)+1)-1)/24.0) palp++;
+
+        cout << palp << endl;
     }
 
-    return 0;
+    exit(0);
 }

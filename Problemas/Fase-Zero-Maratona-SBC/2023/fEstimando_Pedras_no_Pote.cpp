@@ -1,6 +1,5 @@
 #include <bits/stdc++.h>
 #define MAXN 10007
-#define MAXP 1000000001
 
 using namespace std;
 
@@ -18,17 +17,18 @@ int main(){
         for(int k = 0; k < 2; k++){
             num = palpites[0] + pow(-1,k)*erro[j];
 
-            vector <int> v;
-            v.resize(MAXP);
-
-            for(int i = 0; i < n; i++) v[erro[i]] = 0;
-            for(int i = 0; i < n; i++) v[erro[i]]++;
+            map <int, int> v;
+            for(int i = 0; i < n; i++){
+                if(v.find(erro[i]) == v.end()) v[erro[i]] = 0;
+                v[erro[i]]++;
+            }
 
             v[erro[j]]--;
             bool cor = true;
 
             for(int i = 1; i < n; i++){
-                if(v[abs(num-palpites[i])] != 0){
+                if(i == j) continue;
+                if(v.find(abs(num-palpites[i])) != v.end()){
                     v[abs(num-palpites[i])]--;
                 }else{
                     cor = false;
