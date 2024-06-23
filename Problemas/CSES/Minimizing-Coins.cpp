@@ -3,26 +3,25 @@
 
 using namespace std;
 
-int dp[MAXN], coin[MAXN];
+int dp[MAXN];
 
 int main(){
-    int n, x;
-    cin >> n >> x;
+    int n, x; cin >> n >> x;
 
-    for(int i = 0; i < n; i++) cin >> coin[i];
+    vector <int> coins(n, 0);
+    for(int i = 0; i < n; i++) cin >> coins[i];
 
-    for(int i = 0; i <= x; i++){
+    for(int i = 0; i < x; i++){
         if(dp[i] == 0 && i != 0) continue;
         for(int j = 0; j < n; j++){
-            if(i+coin[j] <= x){
-                if(dp[i+coin[j]] == 0) dp[i+coin[j]] = 1+dp[i];
-                else dp[i+coin[j]] = min(dp[i+coin[j]], 1+dp[i]);
+            if(i+coins[j] <= x){
+                if(dp[i+coins[j]] == 0) dp[i+coins[j]] = dp[i]+1;
+                else dp[i+coins[j]] = min(dp[i+coins[j]], dp[i]+1);
             }
         }
     }
 
-    if(dp[x] == 0) cout << -1 << endl;
-    else cout << dp[x] << endl;
+    cout << (dp[x] == 0 ? -1 : dp[x]) << endl;
 
     return 0;
 }

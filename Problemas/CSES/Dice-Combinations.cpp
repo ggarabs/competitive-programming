@@ -13,11 +13,7 @@ int main(){
 
     ans[0] = 1;
 
-    for(int i = 0; i <= n; i++){
-        for(int j = 1; j <= 6; j++){
-            ans[i+j] = (ans[i+j]+ans[i]) mod INT;
-        }
-    }
+    for(int i = 0; i <= n; i++) for(int j = 1; j <= 6; j++) ans[i+j] = (ans[i+j]+ans[i]) mod INT;
 
     cout << ans[n] << endl;
 
