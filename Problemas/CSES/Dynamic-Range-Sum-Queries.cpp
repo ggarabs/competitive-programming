@@ -1,47 +1,61 @@
 #include <bits/stdc++.h>
+#define lli long long int 
 #define MAXN 200007
 
 using namespace std;
 
-int n;
-long long int BIT[MAXN];
+int values[MAXN];
+lli segTree[4*MAXN];
 
-void update(int ind, int value){
-    while(ind <= n){
-        BIT[ind] += value;
-        ind += ind&(-ind);
+void build(int node, int l, int r){
+    if(l == r){
+        segTree[node] = values[l];
+        return;
     }
+
+    int mid = (l+r)/2;
+
+    build(2*node, l, mid);
+    build(2*node+1, mid+1, r);
+
+    segTree[node] = segTree[2*node] + segTree[2*node+1];
 }
 
-long long int sum(int ind){
-    long long int aux = 0;
-    while(ind > 0){
-        aux += BIT[ind];
-        ind -= ind&(-ind);
+void update(int node, int l, int r, int idx, int v){
+    if(l == r){
+        segTree[node] = v;
+        return;
     }
-    return aux;
+
+    int mid = (l+r)/2;
+
+    if(l <= idx && idx <= mid) update(2*node, l, mid, idx, v);
+    else update(2*node+1, mid+1, r, idx, v);
+
+    segTree[node] = segTree[2*node] + segTree[2*node+1];
+}
+
+lli query(int node, int l, int r, int ql, int qr){
+    if(qr < l || ql > r) return 0;
+    
+    if(ql <= l && r <= qr) return segTree[node];
+
+    int mid = (l+r)/2;
+
+    return query(2*node, l, mid, ql, qr) + query(2*node+1, mid+1, r, ql, qr);
 }
 
 int main(){
-    int q;
-    long long int arr[MAXN];
-    cin >> n >> q;
+    int n, q; cin >> n >> q;
 
-    for(int i = 1; i <= n; i++){
-        cin >> arr[i];
-        update(i, arr[i]);
-    }
+    for(int i = 1; i <= n; i++) cin >> values[i];
 
-    for(int i = 0; i < q; i++){
-        int m, a, b;
-        cin >> m >> a >> b;
+    build(1, 1, n);
 
-        if(m == 1){
-            update(a, b-arr[a]);
-            arr[a] = b;
-        }else{
-            cout << sum(b)-sum(a-1) << endl;
-        }
+    for(int i = 1; i <= q; i++){
+        int op, a, b; cin >> op >> a >> b;
+        if(op == 1) update(1, 1, n, a, b);
+        else cout << query(1, 1, n, a, b) << endl;
     }
 
     return 0;
