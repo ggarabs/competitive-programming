@@ -3,11 +3,11 @@
 
 using namespace std;
 
-int lazy[4*MAXN], segtree[4*MAXN];
+int lazy[4*MAXN], segtree[4*MAXN], vet[MAXN];
 
 void build(int node, int ql, int qr){
     if(ql==qr){
-        tree[node]=vet[ql];
+        segtree[node]=vet[ql];
         return;
     }
     
@@ -16,7 +16,7 @@ void build(int node, int ql, int qr){
     build(2*node,ql,mid);
     build(2*node+1,mid+1,qr);
 
-    tree[node] = tree[2*node] + tree[2*node+1];
+    segtree[node] = segtree[2*node] + segtree[2*node+1];
 }
 
 void update(int node, int l, int r, int a, int b, int v){
@@ -31,7 +31,7 @@ void update(int node, int l, int r, int a, int b, int v){
         lazy[node] = 0; // não há valores atrasados no lazy desse nó
     }
 
-    if(r > l || l < a || r > b) return;
+    if(l > r || l > b || r < a) return;
 
     if(a <= l && r <= b){ // se a operação cobre o nó inteiro
         segtree[node] += v*(r - l + 1);
@@ -63,7 +63,7 @@ int query(int node, int l, int r, int ql, int qr){
         lazy[node] = 0;
     }
 
-    if(r > l || l > qr || r < ql) return 0;
+    if(l > r || l > qr || r < ql) return 0;
 
     int mid = (l+r)/2;
 
