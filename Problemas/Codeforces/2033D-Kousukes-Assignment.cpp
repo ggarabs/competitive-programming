@@ -5,10 +5,10 @@ using namespace std;
 int main(){
 	int t; cin >> t;
 	while(t--){
-		int n, curr_sum = 0, ind = 0; cin >> n;
-		map <int, int> sums;
+		long long int n, curr_sum = 0, ind = 0; cin >> n;
+		map <long long int, int> sums;
 		sums[0] = 0;
-		int ans = 0;
+		long long int ans = 0;
 		for(int i = 1; i <= n; i++){
 			int aux; cin >> aux;
 			curr_sum += aux;
