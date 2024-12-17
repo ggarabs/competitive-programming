@@ -1,98 +1,70 @@
 #include <bits/stdc++.h>
 #define lli long long int
-
-const int MAXN = 200007;
+#define MAXN 200007
 
 using namespace std;
 
-int arr[MAXN];
-lli lazy[4*MAXN], segTree[4*MAXN];
+lli tree[4*MAXN], vet[MAXN], diff[MAXN];
 
 void build(int node, int ql, int qr){
-    if(ql == qr){
-        segTree[node] = arr[ql];
-        return;
-    }
+	if(ql == qr){
+		tree[node] = diff[ql];
+		return;
+	}
 
-    int mid = (ql+qr)/2;
+	int mid = (ql+qr)/2;
 
-    build(2*node, ql, mid);
-    build(2*node+1, mid+1, qr);
+	build(2*node, ql, mid);
+	build(2*node+1, mid+1, qr);
 
-    segTree[node] = segTree[2*node] + segTree[2*node+1];
+	tree[node] = tree[2*node] + tree[2*node+1];
 }
 
-void update(int node, int l, int r, int a, int b, lli u){
-    if(lazy[node]){
-        segTree[node] += lazy[node]*(r - l + 1);
+void update(int node, int l, int r, int idx, int v){
+	if(l == r){
+		tree[node] += v;
+		return;
+	}
 
-        if(r != l){
-            lazy[2*node] += lazy[node];
-            lazy[2*node+1] += lazy[node];
-        }
+	int mid = (l+r)/2;
 
-        lazy[node] = 0;
-    }
+	if(l <= idx && idx <= mid) update(2*node, l, mid, idx, v);
+	else update(2*node+1, mid+1, r, idx, v);
 
-    if(l > r || b < l || r < a) return;
-
-    if(a <= l && r <= b){
-        segTree[node] += u*(r - l + 1);
-
-        if(r != l){
-            lazy[2*node] += u;
-            lazy[2*node+1] += u;
-        }
-    }else{
-        int mid = (l+r)/2;
-
-        update(2*node, l, mid, a, b, u);
-        update(2*node+1, mid+1, r, a, b, u);
-
-        segTree[node] = segTree[2*node] + segTree[2*node+1];
-    }
+	tree[node] = tree[2*node] + tree[2*node+1];
 }
 
-lli query(int node, int l, int r, int q){
-    if(lazy[node]){
-        segTree[node] += lazy[node]*(r - l + 1);
+lli query(int node, int l, int r, int idx){
+	if(idx < l || 1 > r) return 0;
 
-        if(l != r){
-            lazy[2*node] += lazy[node];
-            lazy[2*node+1] += lazy[node];
-        }
+	if(1 <= l && r <= idx){
+		return tree[node];
+	}
 
-        lazy[node] = 0;
-    }
+	int mid = (l+r)/2;
 
-    if(l > r || q < l || r < q) return 0;
-
-    int mid = (l+r)/2;
-
-    if(q == l && q == r) return segTree[node];
-    else if(l <= q && q <= mid) return query(2*node, l, mid, q);
-    else return query(2*node+1, mid+1, r, q);
+	return query(2*node, l, mid, idx) + query(2*node+1, mid+1, r, idx);
 }
 
 int main(){
-    int n, q; cin >> n >> q;
+	int n, q; cin >> n >> q;
+	for(int i = 1; i <= n; i++){
+		cin >> vet[i];
+		diff[i] = vet[i]-vet[i-1];
+	}
+	build(1, 1, n);
 
-    for(int i = 1; i <= n; i++) cin >> arr[i];
+	for(int i = 0; i < q; i++){
+		int op; cin >> op;
+		if(op == 1){
+			int a, b, u; cin >> a >> b >> u;
+			if(b <= n-1) update(1, 1, n, b+1, -u);
+			update(1, 1, n, a, u);		
+		}else{
+			int k; cin >> k;
+			cout << query(1, 1, n, k) << endl;
+		}
+	}
 
-    build(1, 1, n);
-
-    for(int i = 0; i < q; i++){
-        char op; cin >> op;
-        if(op == '1'){
-            int a, b, u; cin >> a >> b >> u;
-
-            update(1, 1, n, a, b, u);
-        }else{
-            int k; cin >> k;
-
-            cout << query(1, 1, n, k) << endl;
-        }
-    }
-
-    return 0;
+	return 0;
 }
