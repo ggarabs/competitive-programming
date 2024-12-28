@@ -40,9 +40,9 @@ void update(int node, int l, int r, int idx, int v){
 
 int query(int node, int l, int r, int ql, int qr){
 
-    if(qr<l or ql>r) return 0;
+    if(qr<l || ql>r) return 0;
 
-    if(ql<=l and qr>=r) return tree[node];
+    if(ql<=l && qr>=r) return tree[node];
 
     int mid = (l+r)/2;
 
