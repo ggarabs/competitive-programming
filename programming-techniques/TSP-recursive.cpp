@@ -9,9 +9,9 @@ int tsp(int mask, int i)
 	
 	for(int v = 0; v < n; v++)
 	{
-		if(mask & (1 << v) or !mat[i][v]) continue; // se a cidade atual já foi visitada ou não há rota de i à v
+		if(mask & (1 << v) or !dp[i][v]) continue; // se a cidade atual já foi visitada ou não há rota de i à v
 
-		ans = min(ans, solve((mask | (1 << v)), v) + mat[i][v]); //pego o minimo entre ir para cada vizinho
+		ans = min(ans, tsp((mask | (1 << v)), v) + dp[i][v]); //pego o minimo entre ir para cada vizinho
 
 	}
 

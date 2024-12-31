@@ -9,6 +9,11 @@ typedef long long ll;
 const int INF = 0x3f3f3f3f;
 const ll LINF = 0x3f3f3f3f3f3f3f3fll;
 
+void setIO(string s){
+    freopen((s + ".in").c_str(), "r", stdin);
+    freopen((s + ".out").c_str(), "w", stdout);
+}
+
 int main(){ _
     exit(0);
 }
