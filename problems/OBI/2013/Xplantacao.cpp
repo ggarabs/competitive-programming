@@ -1,46 +1,37 @@
 #include <bits/stdc++.h>
+#define lli long long int
 
 using namespace std;
 
 int main(){
-    int n, k;
-    cin >> n >> k;
+    int n, k; cin >> n >> k;
 
-    vector <int> arvores;
+    vector <lli> pre_sum(k+1, 0);
+    vector <int> trees(k+1, 0);
 
-    int atual = 0;
+    for(int i = 1; i <= k; i++) cin >> trees[i];
+
+    sort(trees.begin(), trees.end());
+
+    for(int i = 1; i <= k; i++) pre_sum[i] = pre_sum[i-1] + trees[i];
+
+    int sld = 0, it = 0;
+    long long ans = 0;
 
     for(int i = 0; i < n; i++){
-        int frutos;
-        cin >> frutos;
-        arvores.push_back(frutos);
-        atual += frutos;
-    }
+        char op; cin >> op;
 
-    int begin = 0, saldo = 0, ans = 0, mortas = 0;
-    vector<int>::iterator pt = arvores.begin();
+        if(op == 'C') sld++;
+        else sld--;
 
-    sort(arvores.begin(), arvores.end());
+        if(it >= k) continue;
 
-    for(int i = 0; i < k; i++){
-        char chuva;
-        cin >> chuva;
+        ans += max(pre_sum[k]-pre_sum[it]+(k-it)*sld, (lli)0);
 
-        if(chuva == 'E') saldo--;
-        else saldo++;
+        vector<int>::iterator pt = upper_bound(trees.begin()+it, trees.end(), -sld);
+        if(pt > trees.begin()+it) pt--;
 
-        if(saldo < 0){
-            pt = upper_bound(arvores.begin(), arvores.end(), -1*saldo);
-            atual -= (arvores.end() - pt);
-            cout << atual << endl;
-            ans -= (arvores.end() - pt);
-        }else{
-            atual += (arvores.end() - pt);
-            cout << atual << endl;
-            ans +=  (arvores.end() - pt);
-        }
-
-        cout << "resp =" << ans << endl;
+        it = max(it, (int)(pt - trees.begin()));
     }
 
     cout << ans << endl;
