@@ -32,7 +32,7 @@ void update(int node, int l, int r, int idx, int v){
     }
     int mid = (l+r)/2;
 
-    if(l<=idx and idx<=mid) update(2*node+1,l,mid,idx,v);
+    if(l<=idx && idx<=mid) update(2*node+1,l,mid,idx,v);
     else update(2*node+2,mid+1,r,idx,v);
 
     tree[node] = tree[2*node+1] + tree[2*node+2];
