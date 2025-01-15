@@ -30,6 +30,12 @@ int main(){
 
 	for(pont = conj.begin(); pont != conj.end(); pont++) cout << *pont << " ";
 	cout << endl;
+
+	// Maneira mais concisa:
+
+	for(auto &elem : conj){
+		cout << elem << endl;
+	}
 	
 	return 0;
 }
