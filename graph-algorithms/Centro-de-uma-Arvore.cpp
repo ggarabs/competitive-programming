@@ -35,8 +35,8 @@ int find_center(int u, int v){ // u e v são extremos de um diâmetro da árvore
         if(max(dist[0][cur], dist[1][cur]) < exc){
             exc = max(dist[0][cur], dist[1][cur]);
             center = u;
-            cur = parent[u];
         }
+        cur = parent[u];
     }
 
     return center;
