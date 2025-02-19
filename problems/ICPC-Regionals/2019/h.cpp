@@ -7,9 +7,10 @@ int main(){
 
     double total = v*n;
 
-    for(int i = 1; i < 10; i++){
-        cout << (long long)ceil(i*total/10) << " ";
-    }
+    cout.precision(0);
+    cout.setf(ios::fixed);
+
+    for(double i = 1; i <= 9; i++) cout << ceil(total*i/10.0) << " ";
 
     cout << endl;
 
